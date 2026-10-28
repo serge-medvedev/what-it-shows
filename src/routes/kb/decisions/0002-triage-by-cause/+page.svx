@@ -4,7 +4,7 @@ title: '0002 · Split #4471 and triage by cause'
 owner: Serge Medvedev with Codex
 status: accepted
 reviewed: 2026-10-28
-signature: 'serge-medvedev with Codex · S01E03'
+signature: "v1.eyJzdWIiOiI0OTgwIiwiYXVkIjoiY2hhbGxlbmdlOndoYXQtaXQtc2hvd3MiLCJpYXQiOjE3OTMyMjc4NjMsImV4cCI6MTc5MzMxNDI2M30.vdN-az3AvdIIoC3hHB75mqJ4lRgqqWUtEVw2UrlA2uE"
 ---
 
 <script>
