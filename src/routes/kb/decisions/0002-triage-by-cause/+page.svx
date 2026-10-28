@@ -1,0 +1,82 @@
+---
+layout: runbook
+title: '0002 · Split #4471 and triage by cause'
+owner: Serge Medvedev with Codex
+status: accepted
+reviewed: 2026-10-28
+signature: 'serge-medvedev with Codex · S01E03'
+---
+
+<script>
+  import CauseTable from '#lib/kb/CauseTable.svelte';
+  import QueueTimeline from '#lib/kb/QueueTimeline.svelte';
+  import DedupeExplorer from '#lib/kb/DedupeExplorer.svelte';
+  import IntakeEvidence from '#lib/kb/IntakeEvidence.svelte';
+  import RenderStamp from '#lib/kb/RenderStamp.svelte';
+  import Callout from '#lib/kb/Callout.svelte';
+</script>
+
+## Decision
+
+This record replaces [decision 0001](/kb/decisions/0001-dedupe-by-subject), which remains unchanged
+as the historical record. The old subject-only rule merges different bugs and separates duplicates.
+Read the report body, look up the tenant's locale and booking-form version, and use the channel
+to identify the failing path. Merge only when the evidence supports the same cause.
+
+<Callout kind="warn">
+The “one issue, one fix” summary of #4471 is incomplete. The rendered evidence separates a parser
+problem from a booking-form hint problem. A parser change alone will leave the form problem open.
+</Callout>
+
+## Separate engineering tickets
+
+**Parser — month-first parsing of day-first dates.** The shared parser reads dates month first.
+For example, R-41200 describes 7 April becoming 4 July at harbour.dental through the app.
+Use the tenant's actual locale rather than the reporter's browser locale. Make parsing explicit
+and locale-aware, then verify the resulting invite through app and email paths and the older booking form.
+
+**Hint — booking-v3 prints the wrong format.** For day-first tenants the form prints `MM/DD/YYYY`,
+while its reader interprets input in the tenant's order. For example, R-41241 at alder.physio came
+through the form and describes people arriving on 8 June for 6 August. Align the hint and reader
+with the tenant locale and verify the complete input-to-invite path. This needs its own ticket and fix.
+
+The live table computes each ticket's report count from unique IDs, tenant configuration and channel.
+Intake tags remain visible as evidence of how reports were first classified; they are not cause labels.
+
+<CauseTable ticket={4471} />
+
+The “no ticket of its own” label refers to the exported desk queue. The separate GitHub tickets
+record this split for engineering; they do not alter the historical export.
+
+## Counting, timing and uncertainty
+
+<IntakeEvidence />
+
+<QueueTimeline ticket={4471} />
+
+## Working rule for the desk
+
+1. Deduplicate repeated export rows by report ID. Two customers reporting the same failure still count as two reports.
+2. Read the body and look up the tenant. Confirm the input path, locale and form version; do not infer them from a subject or browser language.
+3. Use `causeOf` and `sameCause` in `src/lib/kb/causes.ts` as the current routing aid. Matching subjects alone never establish a duplicate.
+4. Keep different causes in separate engineering tickets even when the subjects match. Merge reports with different subjects when the same failure is supported.
+5. An unknown tenant or unexplained symptom requires investigation. The explorer's “keep apart” result for unknown tenants means insufficient evidence, not a proven new cause.
+6. Keep unresolved bodies visible and reclassify them when new evidence arrives. Rebuild the KB when the desk exports new reports or tenant settings.
+
+## Check the rule in the rendered view
+
+The explorer runs the shared cause logic. App and email reports from the same day-first tenant
+can share the parser cause despite different subjects. A booking-v3 form report and an app report
+from the same tenant have different causes even when their subjects match. Matching form subjects
+across booking-v3 and booking-v2 tenants also stay apart. Unknown tenants are not auto-merged.
+
+<DedupeExplorer />
+
+## Keep the knowledge base current
+
+The triage page now points to this rule. The original decision stays readable, and the incident
+page points here rather than presenting its former summary as current guidance. Review dates in
+the index are evidence of maintenance, not proof that a claim agrees with its live tables.
+Reopen this decision if the reports or tenant settings change the cause split.
+
+<RenderStamp {signature} />

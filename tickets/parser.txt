@@ -1,0 +1,18 @@
+Report count: 379 unique reports routed to parser, out of 412 unique reports merged into source ticket #4471.
+
+The shared parser reads month first even though the affected tenants write day first. This swaps month and day for ambiguous dates. Example R-41200: harbour.dental, en-GB, app; the report says 7 April became 4 July.
+
+Scope and evidence:
+- Tenant locale and input channel determine routing through src/lib/kb/causes.ts and the tenant directory. Do not use browser locale or intake tags as the cause.
+- The 379 reports span 11 tenants, received 2026-04-01 through 2026-10-04. Intake tagged 356 as parser and 23 as hint.
+- Count each report ID once. The export has 427 rows but 412 unique IDs. evidence/report-counts.json lists the IDs assigned to each separate cause.
+- Five bodies remain unresolved within this routed count: R-41202, R-41209, R-41236, R-41344, R-41620. They describe one-day, timezone-like or other unexplained symptoms. Routing is not proof of their root cause; obtain original input, parsed timestamp, event timezone and delivered invite before claiming the parser fix covers them. Do not subtract them silently or assert a confirmed third bug.
+
+Expected fix and verification:
+- Use an explicit tenant-aware date format and reject ambiguous unsupported input rather than silently swapping it.
+- Verify app, email and booking-v2 paths for day-first tenants with distinct day/month values, and preserve correct month-first behavior.
+- A parser fix must not be treated as the fix for the separate booking-v3 form-hint issue.
+
+The July merge spike is not the incident onset: reports arrived since April. On 2 July the desk merged 184 reports, including 183 received before that day.
+
+KB decision and rendered evidence: src/routes/kb/decisions/0002-triage-by-cause/+page.svx and rendered/0002-triage-by-cause.html. Recompute counts with node scripts/analyze.mjs.

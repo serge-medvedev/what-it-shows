@@ -1,0 +1,19 @@
+Report count: 33 unique reports routed to hint, out of 412 unique reports merged into source ticket #4471.
+
+The booking-v3 date field prints MM/DD/YYYY for day-first tenants, but the form reader interprets input in the tenant's order. People following the hint enter month first and get a different booking date. This is a separate input-hint mismatch; fixing the shared parser alone does not fix it.
+
+Example R-41241: alder.physio, de-DE, booking-v3, form channel; the report describes people arriving on 8 June for 6 August. R-41230 at copper.studio is another form report and was misleadingly intake-tagged parser.
+
+Scope and evidence:
+- 33 unique IDs across alder.physio, copper.studio and pale.harbour; reports received 2026-04-17 through 2026-09-22.
+- Tenant locale, booking-form version and form channel determine this cause through src/lib/kb/causes.ts. App or email reports from those tenants can still belong to parser.
+- Intake tagged 18 as hint and 15 as parser; those tags cannot supply the count.
+- All were merged into #4471, leaving no separate issue in the exported desk queue. This ticket records the missing engineering issue.
+- Deduplicate by report ID, not by subject or repeated export rows. evidence/report-counts.json lists all report IDs for both causes. The disjoint routed counts are 379 parser plus 33 hint, totaling 412.
+
+Expected fix and verification:
+- Make the displayed format, accepted input and parsed value agree with the tenant locale.
+- Verify booking-v3 form entry through saved booking and outgoing invite for the three affected tenants, using distinct day/month values.
+- Verify booking-v2 and app/email paths do not inherit the form-hint fix incorrectly, and retain correct month-first behavior for appropriate locales.
+
+KB decision and rendered evidence: src/routes/kb/decisions/0002-triage-by-cause/+page.svx and rendered/0002-triage-by-cause.html. Recompute counts with node scripts/analyze.mjs.

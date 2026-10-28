@@ -1,0 +1,38 @@
+---
+layout: runbook
+title: 'Triage: duplicate reports'
+owner: support desk
+status: accepted
+reviewed: 2026-10-28
+---
+
+<script>
+  import DedupeExplorer from '#lib/kb/DedupeExplorer.svelte';
+  import Callout from '#lib/kb/Callout.svelte';
+</script>
+
+A busy morning brings hundreds of reports about the same thing. We keep one ticket per issue
+and merge every duplicate into it, so engineering sees one thread with a count.
+
+## The rule
+
+A report is a duplicate only when evidence supports the **same cause** as an open ticket
+([decision 0002](/kb/decisions/0002-triage-by-cause), replacing the subject-only rule):
+
+1. Read the body and look up the tenant's locale and booking-form version.
+2. Check the input channel and compare causes using the shared logic in `src/lib/kb/causes.ts`.
+3. Merge supported duplicates; keep different causes apart. Investigate unknown tenants and unexplained symptoms before merging.
+
+<Callout>
+Subjects and browser-language intake tags are clues, not proof of the cause. Different causes can
+share a subject; the same cause can arrive under different subjects.
+</Callout>
+
+## Try it
+
+<DedupeExplorer />
+
+## When you are unsure
+
+Keep the report separate until you can establish the failing path. Preserve its body and tenant
+details so engineering can investigate. An unknown tenant does not prove a new cause.

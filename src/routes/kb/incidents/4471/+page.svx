@@ -1,0 +1,37 @@
+---
+layout: runbook
+title: '#4471 · dates parse mm/dd in eu locales'
+owner: support desk
+status: split required
+reviewed: 2026-10-28
+---
+
+<script>
+  import CauseTable from '#lib/kb/CauseTable.svelte';
+  import QueueTimeline from '#lib/kb/QueueTimeline.svelte';
+  import Callout from '#lib/kb/Callout.svelte';
+</script>
+
+Since April, people have told us their bookings land on the wrong day. The table below computes
+the unique reports in the export and separates their routed causes.
+
+**Previously merged as one issue.** That summary hid a separate booking-form hint problem.
+See [decision 0002](/kb/decisions/0002-triage-by-cause) for the split, unresolved report bodies,
+and the replacement triage rule.
+
+<Callout>
+A parser fix alone does not address the booking-v3 hint mismatch. Track the two problems separately.
+</Callout>
+
+## What was merged
+
+<CauseTable ticket={4471} />
+
+## Since April
+
+<QueueTimeline ticket={4471} />
+
+## Lessons
+
+- Matching subjects do not establish matching causes. Read the report and check its tenant and path.
+- Count unique report IDs and compare the written summary with the rendered tables and timeline.
