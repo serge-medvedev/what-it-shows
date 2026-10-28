@@ -4,6 +4,7 @@
     '/kb': 'index',
     '/kb/triage/dedupe': 'triage-dedupe',
     '/kb/incidents/4471': 'incident-4471',
+    '/kb/incidents/4471-resolution': '4471-resolution',
     '/kb/decisions/0001-dedupe-by-subject': '0001-dedupe-by-subject',
     '/kb/decisions/0002-triage-by-cause': '0002-triage-by-cause',
   };

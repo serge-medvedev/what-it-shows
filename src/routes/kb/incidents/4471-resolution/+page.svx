@@ -1,0 +1,39 @@
+---
+layout: runbook
+title: '#4471 · Engineering outcomes and closure'
+owner: Serge Medvedev with Codex
+status: closed
+reviewed: 2026-10-28
+signature: "v1.eyJzdWIiOiI0OTgwIiwiYXVkIjoiY2hhbGxlbmdlOndoYXQtaXQtc2hvd3MiLCJpYXQiOjE3OTMyMjc4NjMsImV4cCI6MTc5MzMxNDI2M30.vdN-az3AvdIIoC3hHB75mqJ4lRgqqWUtEVw2UrlA2uE"
+---
+
+<script>
+  import ResolutionTable from '#lib/kb/ResolutionTable.svelte';
+  import RenderStamp from '#lib/kb/RenderStamp.svelte';
+</script>
+
+## Engineering update
+
+The course published the desk's outcome after accepting the split tickets.
+The two causes ended differently: the parser was fixed, while the booking-v3 hint fix was declined
+because the form was retired. Closing both tickets as completed would lose that distinction.
+
+<ResolutionTable />
+
+## What closure means
+
+The parser ticket closes as **completed**, citing the desk's parser fix.
+The hint ticket closes as **not planned**, citing the retirement of booking-v3.
+The desk supplied these outcomes; this repository documents the investigation and does not
+claim to contain the production parser fix or the form retirement implementation.
+
+The [cause-based triage decision](/kb/decisions/0002-triage-by-cause) stays unchanged as the
+accepted record. Its counts describe the export through 4 October. The engineering outcome
+does not change those historical report counts or establish the root cause of every unusual body.
+The unresolved bodies remain visible there; further reports need current tenant settings and
+the original input and calendar evidence before being attributed to a retired path or a fixed parser.
+
+The [incident page](/kb/incidents/4471) links to this outcome. The desk can keep using the
+[cause-based triage rule](/kb/triage/dedupe) while checking new reports against current product versions.
+
+<RenderStamp {signature} />

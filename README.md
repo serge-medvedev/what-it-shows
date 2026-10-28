@@ -8,6 +8,12 @@ or view [`rendered/0002-triage-by-cause.png`](rendered/0002-triage-by-cause.png)
 The HTML snapshots include inline styles and relative links between the exported pages. Their
 controls are disabled because they are snapshots; the running KB has the interactive explorer.
 
+The subsequent [signed closure record](src/routes/kb/incidents/4471-resolution/+page.svx)
+and its [rendered view](rendered/4471-resolution.html) record the course's engineering update:
+[parser issue #1](https://github.com/serge-medvedev/what-it-shows/issues/1) closed as completed,
+and [hint issue #2](https://github.com/serge-medvedev/what-it-shows/issues/2) closed as not planned
+because booking-v3 was retired. The accepted triage decision remains unchanged.
+
 Reproduce with Node.js 22.18 or later:
 
 ```sh

@@ -2,7 +2,7 @@
 layout: runbook
 title: '#4471 · dates parse mm/dd in eu locales'
 owner: support desk
-status: split required
+status: closed
 reviewed: 2026-10-28
 ---
 
@@ -14,6 +14,10 @@ reviewed: 2026-10-28
 
 Since April, people have told us their bookings land on the wrong day. The table below computes
 the unique reports in the export and separates their routed causes.
+
+**Engineering outcome:** the desk closed this ticket on 5 October. The parser was fixed;
+the hint fix was declined because booking-v3 was retired. See the signed
+[closure page](/kb/incidents/4471-resolution) for the two distinct outcomes.
 
 **Previously merged as one issue.** That summary hid a separate booking-form hint problem.
 See [decision 0002](/kb/decisions/0002-triage-by-cause) for the split, unresolved report bodies,
